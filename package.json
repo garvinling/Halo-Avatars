@@ -1,0 +1,14 @@
+{
+  "name": "halo-api-hackathon",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "fibers": "^1.0.10",
+    "haloapi": "^0.5.0",
+    "meteor-node-stubs": "~0.2.0",
+    "react": "^15.0.1",
+    "react-dom": "^15.0.1"
+  }
+}
