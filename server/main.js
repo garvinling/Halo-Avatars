@@ -1,13 +1,13 @@
+/** THIRD-PARTY LIBRARIES GO HERE**/ 
 import { Meteor } from 'meteor/meteor';
-
 import HaloAPI from 'haloapi';
 import Future from 'fibers/future';
+/** ============================ **/
+
+
+
 
 var h5 = new HaloAPI('6863d25d6ba74aa3a3b42fd879c572ee');
-
-
-
-//Eventually migrate to db layer 
 var weeklyChallenges = [
 
 	{
@@ -26,8 +26,71 @@ var weeklyChallenges = [
 		title : 'Get 3 Buckle Up Medals'
 	}
 
-]
+];
 
+
+/** 
+	PRIVATE FUNCTIONS GO HERE 
+	
+	Any functions that won't be directly called by the client should be defined here.  
+	
+		Example: 
+
+			function checkChallengeCompletion(challengeID) {
+		
+
+
+			}
+
+**/
+
+
+
+
+
+
+/** 
+	PUBLIC FUNCTIONS GO HERE 
+
+	Whenever you need to retrieve some data from the API or the database, you need to add it to the Meteor methods object.  
+	You just need to add a comma after the closing bracket of the last function like so: 
+
+			Meteor.methods({
+					
+				function1() {
+	
+				},
+				function2() {
+	
+				},
+				yourNewFunction(teamMember){
+	
+				}
+
+			});
+
+	On the client side you will call your new function like so:
+
+	Meteor.call('yourNewFunction',teamMember)
+
+	As you can see, the function name is passed as a string to the Meteor.call() method.
+	If you have function variables, append them after the function name with a comma.
+	If you have no variables to pass, just passing the function name is fine.  ex: Meteor.call('yourNewFunction');
+	
+
+	🔥🔥🔥 Returning Data and Callbacks 🔥🔥🔥
+
+	Here is the client-side code to read the response. 
+
+
+	Meteor.call('yourNewFunction',teamMember,(err,res) => {
+		
+		//Process your data here inside the callback function. 
+	
+
+	});
+	
+**/
 
 
 
