@@ -52,18 +52,19 @@ var weeklyChallenges = [
 	@returns : a collection of valid matches within the timeframe of Mon - Sun.   
 	
 	Week start : Monday 
-	Week end   : Sunday 
-
-	
+	Week end   : Sunday 	
 */
 
-function getValidMatches(gamerTag,callback) {
-	
-	var validMatches = [];
-	var weekStart = moment.utc().startOf('week');
-	var matchDate;
-//
 
+
+var bountyFunctions = [getTenKills];			//Put Bounty Function Names in Here.  
+
+function getValidMatches(gamerTag,callback) {
+
+	var fut          = new Future();
+	var validMatches = [];
+	var weekStart    = moment.utc().startOf('week');
+	var matchDate;
 
 	h5.stats.playerMatches(gamerTag)
 		.then(function(data){
@@ -88,12 +89,31 @@ function getValidMatches(gamerTag,callback) {
 		
 
 			});
-		
-		callback(null,validMatches);
+		fut.return(validMatches);
 
 	});
 
+
+	return fut.wait();
 }
+
+
+/** DECLARE BOUNTY FUNCTIONS HERE 
+
+example: 
+function bountyFuncOne(matches,callback) {
+
+	callback(null,returnObj);
+}
+**/
+
+function getTenKills(matches,callback) {
+
+	var returnObj = {};
+
+	callback(null,returnObj);
+}
+
 
 
 
@@ -169,17 +189,22 @@ Meteor.methods({
 	},
 
 
-	getWeeklyMatches(gamerTag) {
+	getWeeklyBounties(gamerTag) {
 
-		var fut = new Future();
+		var fut     = new Future();
+		var matches = getValidMatches(gamerTag);
 
-		async.waterfall([
-		    async.apply(getValidMatches,gamerTag)
+		async.parallel({
+		    one: function(callback){
+		    	//bounty function from bounty array goes here
+		    	//ex. bountyFunctions[0](matches,callback);
+		    	getTenKills(matches,callback);
+		    }
 
-		], function (err, result) {
-
-		    fut.return(result);
-
+		},
+		function(err, results) {
+		    // results is now equals to: {one: 1, two: 2}
+		    fut.return(results);
 		});
 
 		return fut.wait();
