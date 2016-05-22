@@ -22,7 +22,11 @@ class PlayerCard extends React.Component {
 				<h4>Last Game Played</h4>
 				<h3>Kills: {this.props.kills}</h3>
 				<h3>Deaths: {this.props.deaths}</h3>
+				<h3>Assists: {this.props.assists}</h3>
 				<h3>Rank: {this.props.rank}</h3>
+				<h4>Last 10 Games</h4>
+				<h3>Victories: {this.props.victories}</h3>
+				<h3>Exp Gained: {this.props.expGained}</h3>
 			</div>
 			<div className="avatar-container">
 							<img src="/masterchief.png" width="450"/>
@@ -41,7 +45,10 @@ PlayerCard.propTypes = {
 	gamertag : React.PropTypes.string.isRequired,
 	kills : React.PropTypes.number , 
 	deaths : React.PropTypes.number , 
+	assists : React.PropTypes.number ,
 	rank   : React.PropTypes.number,
+	victories : React.PropTypes.number,
+	expGained : React.PropTypes.number,
 	emblem : React.PropTypes.string,
 	spartanImage : React.PropTypes.string
 

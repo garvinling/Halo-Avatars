@@ -13,15 +13,19 @@ class HaloUI extends React.Component{
 			emblemImage : '',
 			spartanImage : '',
 			playerData : {},
+			victories : '',
+			expGained : '',
 			weeklyChallenges : []
 
 		}
 
 		var SPARTAN = 'nonchalant roy';
 		this.getLastMatchPlayed(SPARTAN);
+		this.getLastTenResults(SPARTAN);
 		this.getEmblemImage(SPARTAN);
 		this.getSpartanImage(SPARTAN);
-		this.getWeeklyChallenges();
+		this.getWeeklyChallenges()
+		this.getWeeklyExp(SPARTAN);
 	}
 
 
@@ -81,6 +85,30 @@ class HaloUI extends React.Component{
 	}
 
 
+	getLastTenResults (gamerTag) {
+
+		Meteor.call('getLastTenResults',gamerTag,(err,res) => {
+			console.log(res);
+			this.setState({
+
+				victories        : res
+
+			});
+		});
+	}
+
+	getWeeklyExp (gamerTag) {
+
+		Meteor.call('getWeeklyExpGained',gamerTag,(err,res) => {
+			console.log(res);
+			this.setState({
+
+				expGained        : res
+			});
+		});
+	}
+
+
 
 	render() {
 
@@ -88,10 +116,13 @@ class HaloUI extends React.Component{
 		return (
 			<div className="container">
 
-			<PlayerCard gamertag={this.state.currentSpartan} 
+			<PlayerCard gamertag={this.state.currentSpartan}
 						kills={this.state.playerData.TotalKills}
 						deaths={this.state.playerData.TotalDeaths}
+						assists={this.state.playerData.TotalAssists}
 						rank={this.state.playerData.Rank}
+			            victories={this.state.victories}
+			            expGained={this.state.expGained}
 						emblem={this.state.emblemImage}
 						spartanImage={this.state.spartanImage}
 			/>

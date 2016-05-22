@@ -44,7 +44,21 @@ var weeklyChallenges = [
 
 **/
 
+function getThisWeeksMatchIds (gamerTag){
+	var fut = new Future();
+	var matchIds = [];
+	h5.stats.playerMatches(gamerTag)
+		.then((res) => {
+			// for now, use last 10 games until logic for getting games since Sunday is complete
+			for(i = 0; i < 10; i++) {
+				//console.log("MatchID: " + res.Results[i].Id.MatchId);
+				matchIds.push(res.Results[i].Id.MatchId);
+			}
+			fut.return(matchIds);
+		});
 
+	return fut.wait();
+}
 
 
 
@@ -107,6 +121,48 @@ Meteor.methods({
 			});
 
 		return fut.wait();
+	},
+
+	getLastTenResults(gamerTag) {
+		// counts number of victories
+		var fut = new Future();
+		var victories = 0;
+
+		h5.stats.playerMatches(gamerTag)
+			.then((res) => {
+				// for now, use last 10 games until logic for getting games since Sunday is complete
+				for(i = 0; i < 10; i++) {
+					if (res.Results[i].Players[0].Result == 3) {
+						victories++;
+					}
+				}
+				fut.return(victories);
+
+			});
+
+		return fut.wait();
+	},
+
+	getWeeklyExpGained(gamerTag) {
+		// adds up exp gained
+		var fut = new Future();
+		var totalExpGained = 0;
+		var thisWeeksMatchIds = [];
+		// for now, use last 10 games until logic for getting games since Sunday is complete
+		thisWeeksMatchIds = getThisWeeksMatchIds(gamerTag);
+		for (x = 0; x < thisWeeksMatchIds.length; x++){
+			h5.stats.arenaMatchById(thisWeeksMatchIds[x])
+				.then((res) => {
+					expThisMatch = res.PlayerStats[0].XpInfo.TotalXP - res.PlayerStats[0].XpInfo.PrevTotalXP;
+					fut.return(expThisMatch);
+				});
+				abc = fut.wait();
+
+				totalExpGained += abc;
+			console.log("expThisMatch = " + abc);
+		}
+		return totalExpGained;
+
 	},
 
 
