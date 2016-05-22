@@ -2,6 +2,8 @@
 import { Meteor } from 'meteor/meteor';
 import HaloAPI from 'haloapi';
 import Future from 'fibers/future';
+import moment from 'moment';
+import async from 'async';
 /** ============================ **/
 
 
@@ -57,7 +59,56 @@ function getThisWeeksMatchIds (gamerTag){
 			fut.return(matchIds);
 		});
 
+
 	return fut.wait();
+}
+
+/* 
+	@param   : gamerTag 
+	@returns : a collection of valid matches within the timeframe of Mon - Sun.   
+	
+	Week start : Monday 
+	Week end   : Sunday 
+
+	
+*/
+
+function getValidMatches(gamerTag,callback) {
+	
+	var validMatches = [];
+	var weekStart = moment.utc().startOf('week');
+	var matchDate;
+//
+
+
+	h5.stats.playerMatches(gamerTag)
+		.then(function(data){
+
+			data.Results.forEach(function(match){
+
+				matchDate = moment.utc(match.MatchCompletedDate.ISO8601Date);
+
+				if(matchDate.isAfter(weekStart)){
+
+					validMatches.push(match);
+
+				} else if(matchDate.diff(weekStart) === 0) {
+
+					validMatches.push(match);
+
+				}
+				else {
+
+				}
+
+		
+
+			});
+		
+		callback(null,validMatches);
+
+	});
+
 }
 
 
@@ -173,6 +224,23 @@ Meteor.methods({
 		return weeklyChallenges;
 
 
+	},
+
+
+	getWeeklyMatches(gamerTag) {
+
+		var fut = new Future();
+
+		async.waterfall([
+		    async.apply(getValidMatches,gamerTag)
+
+		], function (err, result) {
+
+		    fut.return(result);
+
+		});
+
+		return fut.wait();
 	},
 
 
