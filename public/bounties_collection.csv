@@ -1,0 +1,10 @@
+id,title,description,total,parameter,type,active
+1,BOOM HEADSHOT!,Get 20 precision kills in Arena,20,TotalHeadshots,sum,false
+2,I Ain't Even Mad,Get 50 assists in Arena,50,TotalAssists,sum,false
+3,XBOX RECORD DAT!!,Get 3 ground pound kills in Arena,3,TotalGroundPoundKills,sum,false
+4,Call me a Ninja,Get 5 assasinations in Arena,5,TotalAssassinations,sum,false
+5,Don't talk about Fight Club,Get 10 melee kills in Arena,10,TotalMeleeKills,sum,false
+6,Don't call it a Suncharge,Get 3 shoulder bash kills in Arena,3,TotalShoulderBashKills,sum,false
+7,Grenade out!!!,Get 5 grenade kills in Arena,5,TotalGrenadeKills,sum,false
+8,Power playerrr,Get 10 power weapon killsin Arena,10,TotalPowerWeaponKills,sum,false
+9,Slayer Boyz,Get 40 kills in Arena,40,TotalKills,sum,false
